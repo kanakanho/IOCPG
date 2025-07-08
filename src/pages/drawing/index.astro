@@ -1,0 +1,154 @@
+---
+import PersonalityCard from "../../components/IndexCard/PersonalityCard.astro";
+import CharacterCard from "../../components/IndexCard/CharacterCard.astro";
+import '../../styles/global.css';
+import DefaultLayout from "../../layout/DefaultLayout.astro";
+
+
+const personalityList: string[] = [
+  "外向的な", "内向的な", "生真面目な", "怠惰な", "強欲な", "謙虚な", "柔和な", "乱暴な", "かわいらしい", "凛々しい", "生意気な", "謙虚な", "消極的な", "積極的な", "凝り性な", "飽き性な", "男気のある", "乙女の", "卑屈な", "傲慢な", "おしゃべりな", "寡黙な", "勇敢な", "臆病な", "かっこいい", "かよわい", "嫉妬深い", "さばさばとした", "冷静な", "情熱的な", "横暴な", "知的な", "思慮深い", "突発的な", "無関心な", "優柔不断", "野生的な", "律儀な", "恩知らずな", "怖い", "安心な", "勇ましい", "ドジっ子の", "しっかりものの", "優しい", "冷たい", "温厚な", "冷酷な", "人見知りの"
+];
+const characterList: string[] = [
+  "天使", "老婆", "メスガキ", "めがね", "ふしぎちゃん", "熟女", "悪魔", "妹", "ギャル", "おじさん", "女性", "幼馴染", "ぼくっ子", "先輩", "同級生", "乙女", "ママ", "上司", "後輩", "同僚", "少女", "マッチョ", "幼女", "ヤンキー", "ショタ", "年上", "ロリ", "少年", "お嬢様", "お姉さん"
+];
+
+function getRandom(arr: string[]): string {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+const randomPersonality = getRandom(personalityList);
+const randomCharacter = getRandom(characterList);
+---
+
+<DefaultLayout>
+  <main>
+    <h1>お題</h1>
+    <div class="cards">
+      <div class:list={["card-box", "identity-card"]} id="identity-card-box">
+        <PersonalityCard title="性格" content={randomPersonality} />
+      </div>
+      <div class:list={["card-box", "character-card"]} id="character-card-box">
+        <CharacterCard title="キャラクター" content={randomCharacter} />
+      </div>
+    </div>
+    <button id="reset-button">
+      <p>カードをリセットする</p>
+    </button>
+  </main>
+</DefaultLayout>
+
+<style>
+  body {
+    background-color: white;
+  }
+
+  main {
+    display: flex;
+    height: 100svh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  main h1 {
+    text-align: center;
+    font-size: 4rem;
+    margin-bottom: 50px;
+    color: #333;
+  }
+
+  .cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .card-box {
+    margin: 60px;
+    width: 540px;
+  }
+
+  .identity-card {
+    z-index: -1;
+  }
+  
+  .character-card {
+    z-index: calc(infinity);
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 1.5rem;
+    color: #C4D4F2;
+    background-color: white;
+    /* background-color: #C4D4F2; */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+</style>
+
+<script is:inline>
+const personalityList = [
+  "外向的な", "内向的な", "生真面目な", "怠惰な", "強欲な", "謙虚な", "柔和な", "乱暴な", "かわいらしい", "凛々しい", "生意気な", "謙虚な", "消極的な", "積極的な", "凝り性な", "飽き性な", "男気のある", "乙女の", "卑屈な", "傲慢な", "おしゃべりな", "寡黙な", "勇敢な", "臆病な", "かっこいい", "かよわい", "嫉妬深い", "さばさばとした", "冷静な", "情熱的な", "横暴な", "知的な", "思慮深い", "突発的な", "無関心な", "優柔不断", "野生的な", "律儀な", "恩知らずな", "怖い", "安心な", "勇ましい", "ドジっ子の", "しっかりものの", "優しい", "冷たい", "温厚な", "冷酷な", "人見知りの"
+];
+const characterList = [
+  "天使", "老婆", "メスガキ", "めがね", "ふしぎちゃん", "熟女", "悪魔", "妹", "ギャル", "おじさん", "女性", "幼馴染", "ぼくっ子", "先輩", "同級生", "乙女", "ママ", "上司", "後輩", "同僚", "少女", "マッチョ", "幼女", "ヤンキー", "ショタ", "年上", "ロリ", "少年", "お嬢様", "お姉さん"
+];
+
+function getRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+const randomPersonality = getRandom(personalityList);
+const randomCharacter = getRandom(characterList);
+
+function alreadySetItem() {
+  const randomPersonalityFromLS = localStorage.getItem("randomPersonality");
+  const randomCharacterFromLS = localStorage.getItem("randomCharacter");
+  if (randomPersonalityFromLS && randomCharacterFromLS) {
+    return [randomPersonalityFromLS, randomCharacterFromLS];
+  }
+  return [null, null];
+}
+
+function setPersonalityContent() {
+  // ローカルストレージに既に保存されている場合は取得
+  const [randomPersonalityFromLS, randomCharacterFromLS] = alreadySetItem();
+  if (randomPersonalityFromLS === null && randomCharacterFromLS === null) {
+    // ローカルストレージに保存
+    localStorage.setItem("randomPersonality", randomPersonality);
+    localStorage.setItem("randomCharacter", randomCharacter);
+    return;
+  }
+
+  // 置き換える
+  const personalityCard = document.getElementById("identity-card-box");
+  if (personalityCard) {
+    let p = personalityCard.querySelector(".text p");
+    if (p) {
+      p.textContent = randomPersonalityFromLS;
+    }
+  }
+
+  const characterCard = document.getElementById("character-card-box");
+  if (characterCard) {
+    let p = characterCard.querySelector(".text p");
+    if (p) {
+      p.textContent = randomCharacterFromLS;
+    }
+  }
+}
+
+setPersonalityContent();
+
+document.getElementById("reset-button").addEventListener("click", () => {
+  localStorage.removeItem("randomPersonality");
+  localStorage.removeItem("randomCharacter");
+  setPersonalityContent();
+
+  window.location.reload();
+});
+
+</script>

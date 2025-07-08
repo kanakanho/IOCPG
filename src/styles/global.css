@@ -2,4 +2,15 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Klee One", serif;
+  text-decoration: none;
+}
+
+@font-face {
+  font-family: "Klee One";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(https://cdn.jsdelivr.net/fontsource/fonts/klee-one@latest/japanese-400-normal.woff2) format("woff2"),
+    url(https://cdn.jsdelivr.net/fontsource/fonts/klee-one@latest/japanese-400-normal.woff) format("woff");
 }

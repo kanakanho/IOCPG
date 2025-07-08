@@ -1,0 +1,172 @@
+---
+import CharacterCard from "./CharacterCard.astro";
+import PersonalityCard from "./PersonalityCard.astro";
+---
+
+<div class:list={["card-box", "personality-card"]} id="personality-card-box">
+  <PersonalityCard title="性格" content="乙女の" />
+</div>
+<div class:list={["card-box", "character-card"]} id="character-card-box">
+  <CharacterCard title="キャラクター" content="後輩" />
+</div>
+
+<style>
+  .card-box {
+    /* margin: 50px; */
+    width: 500px;
+    transition: none;
+  }
+
+  .personality-card.animate {
+    animation: slidePersonality 1.0s ease-out;
+    rotate: -2deg;
+  }
+
+  .character-card.animate {
+    animation: slideInCharacter 1.5s ease-out;
+    rotate: 2deg;
+  }
+
+  @keyframes slideInCharacter {
+    0% {
+      opacity: 0;
+      transform: translateY(-100%) translateX(20%);
+    }
+    25% {
+      opacity: 0;
+      transform: translateY(-100%) translateX(20%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) translateX(0);
+    }
+  }
+
+
+  @keyframes slidePersonality {
+    0% {
+      opacity: 0;
+      transform: translateY(-100%) translateX(-20%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) translateX(0);
+    }
+    
+  }
+
+  .identity-card {
+    z-index: -1;
+  }
+  .character-card {
+    z-index: calc(infinity);
+  }
+</style>
+
+<script is:inline>
+  const personalityList = [
+  "外向的な",
+  "内向的な",
+  "生真面目な",
+  "怠惰な",
+  "強欲な",
+  "謙虚な",
+  "柔和な",
+  "乱暴な",
+  "かわいらしい",
+  "凛々しい",
+  "生意気な",
+  "謙虚な",
+  "消極的な",
+  "積極的な",
+  "凝り性な",
+  "飽き性な",
+  "男気のある",
+  "乙女の",
+  "卑屈な",
+  "傲慢な",
+  "おしゃべりな",
+  "寡黙な",
+  "勇敢な",
+  "臆病な",
+  "かっこいい",
+  "かよわい",
+  "嫉妬深い",
+  "さばさばした",
+  "冷静な",
+  "情熱的な",
+  "横暴な",
+  "知的な",
+  "思慮深い",
+  "突発的な",
+  "無関心な",
+  "優柔不断",
+  "野生的な",
+  "律儀な",
+  "恩知らずな",
+  "怖い",
+  "安心な",
+  "勇ましい",
+  "ドジっ子の",
+  "しっかりものの",
+  "優しい",
+  "冷たい",
+  "温厚な",
+  "冷酷な",
+  "人見知りの",
+  ]
+  const characterList = [
+      "天使",
+  "老婆",
+  "メスガキ",
+  "めがね",
+  "ふしぎちゃん",
+  "熟女",
+  "悪魔",
+  "妹",
+  "ギャル",
+  "おじさん",
+  "女性",
+  "幼馴染",
+  "ぼくっ子",
+  "先輩",
+  "同級生",
+  "乙女",
+  "ママ",
+  "上司",
+  "後輩",
+  "同僚",
+  "少女",
+  "マッチョ",
+  "幼女",
+  "ヤンキー",
+  "ショタ",
+  "年上",
+  "ロリ",
+  "少年",
+  "お嬢様",
+  "お姉さん",
+  ]
+  function getRandom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+  function updateCard(cardId, arr) {
+    const box = document.getElementById(cardId);
+    if (!box) return;
+    const p = box.querySelector(".text p");
+    if (!p) return;
+    box.classList.remove("animate");
+    void box.offsetWidth;
+    box.classList.add("animate");
+    p.textContent = getRandom(arr);
+  }
+  let toggle = true;
+  setInterval(() => {
+    if (toggle) {
+      updateCard("personality-card-box", personalityList);
+    } else {
+      updateCard("character-card-box", characterList);
+    }
+    toggle = !toggle;
+  }, 2500);
+</script>

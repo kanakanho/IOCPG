@@ -1,13 +1,109 @@
 ---
-
+import AnimationCard from '../components/AnimationCard/AnimationCard.astro';
+import DefaultLayout from '../layout/DefaultLayout.astro';
+import '../styles/global.css';
 ---
 
-<html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>IOCPG</title>
-  </head>
-  <body> </body>
-</html>
+<DefaultLayout>
+  <main>
+    <h1>
+      即興創作キャラ属性当てゲーム
+    </h1>
+    <div class="animation-card-box">
+      <AnimationCard />
+    </div>
+      <a href="/drawing" class="start">
+        <div class="start-box">
+          <p>ゲームを始める</p>
+        </div>
+      </a>
+  </main>
+</DefaultLayout>
+
+<style>
+  body {
+    background-color: white;
+  }
+
+  main {
+    display: grid;
+    width: 100svw;
+    height: 100svh;
+    align-items: center;
+    grid-template-rows: 1fr 4fr 2fr;
+
+    padding: 10%;
+  }
+
+  main h1 {
+    text-align: center;
+    font-size: 4rem;
+    font-weight: bold;
+    color: #2B4C8C;
+  }
+
+  .animation-card-box {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items:flex-end;
+    gap: 100px;
+  }
+
+  .start-box {
+    padding: 4px 0;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2B4C8C;
+    margin-top: 50px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0 16px 0 16px;
+    transition: color 0.3s;
+    z-index: 0;
+
+    /* 右下にbox-shadow */
+    box-shadow: 2px 8px 6px rgba(0, 0, 0, 0.1), 3px 3px 2px rgba(0, 0, 0, 0.08);
+  }
+
+  .start-box::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #2B4C8C 0%, #2B4C8C 100%);
+    border-radius: 0 16px 0 16px;
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    z-index: -1;
+  }
+
+  .start-box:hover::before {
+    transform: translateX(0);
+  }
+
+  .start {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .start-box {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    width: 25%;
+  }
+
+  .start-box:hover {
+    color: #fff;
+  }
+</style>
