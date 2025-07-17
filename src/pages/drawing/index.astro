@@ -34,6 +34,11 @@ const randomCharacter = getRandom(characterList);
     <button id="reset-button">
       <p>カードをリセットする</p>
     </button>
+    <a href="/guessing" class="start">
+      <div class="start-box">
+        <p>次のフェーズへ</p>
+      </div>
+    </a>
   </main>
 </DefaultLayout>
 
@@ -86,6 +91,60 @@ const randomCharacter = getRandom(characterList);
     border-radius: 5px;
     cursor: pointer;
     margin-top: 20px;
+  }
+
+  .start-box {
+    padding: 4px 0;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2B4C8C;
+    margin-top: 50px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0 16px 0 16px;
+    transition: color 0.3s;
+    z-index: 0;
+
+    /* 右下にbox-shadow */
+    box-shadow: 2px 8px 6px rgba(0, 0, 0, 0.1), 3px 3px 2px rgba(0, 0, 0, 0.08);
+  }
+
+  .start-box::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #2B4C8C 0%, #2B4C8C 100%);
+    border-radius: 0 16px 0 16px;
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    z-index: -1;
+  }
+
+  .start-box:hover::before {
+    transform: translateX(0);
+  }
+
+  .start {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .start-box {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    width: 25%;
+  }
+
+  .start-box:hover {
+    color: #fff;
   }
 </style>
 

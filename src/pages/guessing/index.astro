@@ -1,35 +1,240 @@
 ---
-import PersonalityCard from "../../components/IndexCard/PersonalityCard.astro";
-import CharacterCard from "../../components/IndexCard/CharacterCard.astro";
+import PersonalityCard from "../../components/MiniCard/PersonalityCard.astro";
+import CharacterCard from "../../components/MiniCard/CharacterCard.astro";
 import '../../styles/global.css';
 import DefaultLayout from "../../layout/DefaultLayout.astro";
+
+const personalityList: string[] = [
+  "外向的な", "内向的な", "生真面目な", "怠惰な", "強欲な", "謙虚な", "柔和な", "乱暴な", "かわいらしい", "凛々しい", "生意気な", "謙虚な", "消極的な", "積極的な", "凝り性な", "飽き性な", "男気のある", "乙女の", "卑屈な", "傲慢な", "おしゃべりな", "寡黙な", "勇敢な", "臆病な", "かっこいい", "かよわい", "嫉妬深い", "さばさばとした", "冷静な", "情熱的な", "横暴な", "知的な", "思慮深い", "突発的な", "無関心な", "優柔不断", "野生的な", "律儀な", "恩知らずな", "怖い", "安心な", "勇ましい", "ドジっ子の", "しっかりものの", "優しい", "冷たい", "温厚な", "冷酷な", "人見知りの"
+];
+const characterList: string[] = [
+  "天使", "老婆", "メスガキ", "めがね", "ふしぎちゃん", "熟女", "悪魔", "妹", "ギャル", "おじさん", "女性", "幼馴染", "ぼくっ子", "先輩", "同級生", "乙女", "ママ", "上司", "後輩", "同僚", "少女", "マッチョ", "幼女", "ヤンキー", "ショタ", "年上", "ロリ", "少年", "お嬢様", "お姉さん"
+];
+
+type CardTable = {
+  id: `${string}-${string}-${string}-${string}-${string}`;
+  content: string;
+}[];
+
+const personalityTable: CardTable = personalityList.map(personality => ({
+  id: crypto.randomUUID(),
+  content: personality
+}));
+
+const characterTable: CardTable = characterList.map(character => ({
+  id: crypto.randomUUID(),
+  content: character
+}));
+
 ---
 
 <DefaultLayout>
-  <main>
-    <div class="card-box">
-      <PersonalityCard title="性格" content="無関心" />
+  <header>
+    <h1>お題を当てよう！</h1>
+    <div class="cards">
+      <div class="card-box-index" id="chosen-personality-card-box">
+        <PersonalityCard content="&nbsp;" />
+      </div>
+      <div class="card-box-index" id="chosen-character-card-box">
+        <CharacterCard content="&nbsp;" />
+      </div>
     </div>
-    <div class="card-box">
-      <CharacterCard title="キャラクター" content="先輩" />
+  </header>
+  <main>
+    <div class="personality">
+      {
+        personalityTable.map(personality => (
+          <div class="card-box" id={personality.id}>
+            <PersonalityCard content={personality.content} />
+          </div>
+        ))
+      }
+    </div>
+    <div class="character">
+      {
+        characterTable.map(character => (
+          <div class="card-box" id={character.id}>
+            <CharacterCard content={character.content} />
+          </div>
+        ))
+      }
     </div>
   </main>
+  <a href="/" class="start">
+    <div class="start-box">
+      <p>ゲームを終える</p>
+    </div>
+  </a>
 </DefaultLayout>
 
-<style>
+<style is:inline>
   body {
     background-color: white;
   }
 
+  h1 {
+    text-align: center;
+    font-size: 4rem;
+    color: #333;
+  }
+
   main {
     display: grid;
-    height: 100svh;
-    grid-template-columns: 3fr 3fr;
+    grid-template-columns: 4fr 3fr;
+    gap: 24px;
+    align-items: start;
+    margin: 100px;
+    margin-top: 360px;
+  }
+
+  header {
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    backdrop-filter: blur(12px);
+    mask-image: linear-gradient(to bottom,#000 80%,#0000);
+    box-shadow: 0 -6px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    gap: 0px;
+    z-index: 1000;
+  }
+
+  .cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+
+  footer {
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    mask-image: linear-gradient(to top,#000 80%,#0000);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    padding-top: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items:flex-end;
+    gap: 0px;
+  }
+
+  .personality {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    place-items: center;
+  }
+
+  .character {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    place-items: center;
   }
 
   .card-box {
+    width: 220px;
+  }
+
+  .card-box-index {
     margin: 50px;
-    width: 500px;
+    width: 300px;
+  }
+
+  .start-box {
+    padding: 4px 0;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2B4C8C;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0 16px 0 16px;
+    transition: color 0.3s;
+    z-index: 0;
+
+    /* 右下にbox-shadow */
+    box-shadow: 2px 8px 6px rgba(0, 0, 0, 0.1), 3px 3px 2px rgba(0, 0, 0, 0.08);
+  }
+
+  .start-box::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #2B4C8C 0%, #2B4C8C 100%);
+    border-radius: 0 16px 0 16px;
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    z-index: -1;
+  }
+
+  .start-box:hover::before {
+    transform: translateX(0);
+  }
+
+  .start {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 40px 0;
+  }
+
+  .start-box {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    width: 25%;
+  }
+
+  .start-box:hover {
+    color: #fff;
   }
 </style>
+
+<script>
+  document.querySelectorAll('.card-box').forEach(box => {
+    box.addEventListener('click', () => {
+      const personalityCardBox = document.getElementById('chosen-personality-card-box');
+      const characterCardBox = document.getElementById('chosen-character-card-box');
+      const textP = box.querySelector('.text p');
+      if (box.parentElement && box.parentElement.classList.contains('personality')) {
+        if (personalityCardBox) {
+          personalityCardBox.getElementsByClassName("card-box")[0].classList.remove('animate');
+          const footerText = personalityCardBox.querySelector('.text p');
+          if (footerText && textP) {
+            footerText.textContent = textP.textContent;
+          }
+          void personalityCardBox.offsetWidth;
+          personalityCardBox.getElementsByClassName("card-box")[0].classList.add('animate');
+        }
+      } else if (box.parentElement && box.parentElement.classList.contains('character')) {
+        if (characterCardBox) {
+          characterCardBox.getElementsByClassName("card-box")[0].classList.remove('animate');
+          const footerText = characterCardBox.querySelector('.text p');
+          if (footerText && textP) {
+            footerText.textContent = textP.textContent;
+          }
+          void characterCardBox.offsetWidth;
+          characterCardBox.getElementsByClassName("card-box")[0].classList.add('animate');
+        }
+      }
+    });
+  });
+</script>

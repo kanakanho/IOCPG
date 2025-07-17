@@ -1,8 +1,9 @@
 ---
 const { content } = Astro.props;
+const rotate = Math.random() * 2 - 1;
 ---
 
-<div class="card-box">
+<div class="card-box" style={`rotate: ${rotate}deg;`}>
   <div class="card">
     <div class="title">
       <p>キャラクター</p>
@@ -15,17 +16,20 @@ const { content } = Astro.props;
 </div>
 
 <style>
+  .card-box.animate {
+    animation: slideInCharacter 0.8s ease-out;
+  }
+
   .card-box {
-    animation: slideInCharacter 1.5s ease-out;
-    rotate: 2deg;
+    display: grid;
+    place-items: center;
   }
 
   .card {
     position: relative;
     width: 100%;
     background-color: #C4D4F2;
-    background: linear-gradient(260deg, #C4D4F2 65%, #A0B3E6 100%);
-    /* background-color: #eee; */
+    background: linear-gradient(260deg, #dfe7ff 10%, #e8f0ff 100%);
 
     padding: 5% 8%;
   }
@@ -35,7 +39,7 @@ const { content } = Astro.props;
       opacity: 0;
       transform: translateY(-100%) translateX(20%);
     }
-    25% {
+    15% {
       opacity: 0;
       transform: translateY(-100%) translateX(20%);
     }
@@ -46,11 +50,13 @@ const { content } = Astro.props;
   }
 
   .title p {
-    font-size: 2rem;
+    font-size: 1.4rem;
+    color: #bbb;
+    user-select: none;
   }
 
   .text p {
-    font-size: 4rem;
+    font-size: 1.6rem;
     text-align: center;
   }
 
