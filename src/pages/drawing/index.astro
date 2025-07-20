@@ -141,17 +141,17 @@ const randomCharacter = getRandom(characterList);
   }
 </style>
 
-<script is:inline>
+<script>
 import { personalityList, characterList } from "../../index.ts";
 
-function getRandom(arr) {
+function getRandom(arr: string[]): string {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
 const randomPersonality = getRandom(personalityList);
 const randomCharacter = getRandom(characterList);
 
-function alreadySetItem() {
+function alreadySetItem(): [string | null, string | null] {
   const randomPersonalityFromLS = localStorage.getItem("randomPersonality");
   const randomCharacterFromLS = localStorage.getItem("randomCharacter");
   if (randomPersonalityFromLS && randomCharacterFromLS) {
@@ -190,12 +190,15 @@ function setPersonalityContent() {
 
 setPersonalityContent();
 
-document.getElementById("reset-button").addEventListener("click", () => {
-  localStorage.removeItem("randomPersonality");
-  localStorage.removeItem("randomCharacter");
-  setPersonalityContent();
+const resultButton = document.getElementById("reset-button");
+if (resultButton) {
+  resultButton.addEventListener("click", () => {
+    localStorage.removeItem("randomPersonality");
+    localStorage.removeItem("randomCharacter");
+    setPersonalityContent();
 
-  window.location.reload();
-});
+    window.location.reload();
+  });
+}
 
 </script>

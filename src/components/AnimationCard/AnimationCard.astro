@@ -13,7 +13,7 @@ import PersonalityCard from "./PersonalityCard.astro";
 <style>
   .card-box {
     /* margin: 50px; */
-    width: 500px;
+    width: 550px;
     transition: none;
   }
 
@@ -63,13 +63,17 @@ import PersonalityCard from "./PersonalityCard.astro";
   }
 </style>
 
-<script is:inline>
+<script>
   import { personalityList, characterList } from "../../index.ts";
 
-  function getRandom(arr) {
+  function getRandom(arr: string[]) {
     return arr[Math.floor(Math.random() * arr.length)];
   }
-  function updateCard(cardId, arr) {
+  type CardUpdate = {
+    cardId: string;
+    arr: string[];
+  };
+  function updateCard({cardId, arr}: CardUpdate) {
     const box = document.getElementById(cardId);
     if (!box) return;
     const p = box.querySelector(".text p");
@@ -82,9 +86,15 @@ import PersonalityCard from "./PersonalityCard.astro";
   let toggle = true;
   setInterval(() => {
     if (toggle) {
-      updateCard("personality-card-box", personalityList);
+      updateCard({
+        cardId: "personality-card-box",
+        arr: personalityList
+      });
     } else {
-      updateCard("character-card-box", characterList);
+      updateCard({
+        cardId: "character-card-box",
+        arr: characterList
+      });
     }
     toggle = !toggle;
   }, 2500);
