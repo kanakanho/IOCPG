@@ -152,21 +152,21 @@ const randomPersonality = getRandom(personalityList);
 const randomCharacter = getRandom(characterList);
 
 function alreadySetItem(): [string | null, string | null] {
-  const randomPersonalityFromLS = localStorage.getItem("randomPersonality");
-  const randomCharacterFromLS = localStorage.getItem("randomCharacter");
-  if (randomPersonalityFromLS && randomCharacterFromLS) {
-    return [randomPersonalityFromLS, randomCharacterFromLS];
+  const randomPersonalityFromSS = sessionStorage.getItem("randomPersonality");
+  const randomCharacterFromSS = sessionStorage.getItem("randomCharacter");
+  if (randomPersonalityFromSS && randomCharacterFromSS) {
+    return [randomPersonalityFromSS, randomCharacterFromSS];
   }
   return [null, null];
 }
 
 function setPersonalityContent() {
-  // ローカルストレージに既に保存されている場合は取得
-  const [randomPersonalityFromLS, randomCharacterFromLS] = alreadySetItem();
-  if (randomPersonalityFromLS === null && randomCharacterFromLS === null) {
-    // ローカルストレージに保存
-    localStorage.setItem("randomPersonality", randomPersonality);
-    localStorage.setItem("randomCharacter", randomCharacter);
+  // sessionStorageに既に保存されている場合は取得
+  const [randomPersonalityFromSS, randomCharacterFromSS] = alreadySetItem();
+  if (randomPersonalityFromSS === null && randomCharacterFromSS === null) {
+    // sessionStorageに保存
+    sessionStorage.setItem("randomPersonality", randomPersonality);
+    sessionStorage.setItem("randomCharacter", randomCharacter);
     return;
   }
 
@@ -175,7 +175,7 @@ function setPersonalityContent() {
   if (personalityCard) {
     let p = personalityCard.querySelector(".text p");
     if (p) {
-      p.textContent = randomPersonalityFromLS;
+      p.textContent = randomPersonalityFromSS;
     }
   }
 
@@ -183,7 +183,7 @@ function setPersonalityContent() {
   if (characterCard) {
     let p = characterCard.querySelector(".text p");
     if (p) {
-      p.textContent = randomCharacterFromLS;
+      p.textContent = randomCharacterFromSS;
     }
   }
 }
@@ -193,10 +193,9 @@ setPersonalityContent();
 const resultButton = document.getElementById("reset-button");
 if (resultButton) {
   resultButton.addEventListener("click", () => {
-    localStorage.removeItem("randomPersonality");
-    localStorage.removeItem("randomCharacter");
+    sessionStorage.removeItem("randomPersonality");
+    sessionStorage.removeItem("randomCharacter");
     setPersonalityContent();
-
     window.location.reload();
   });
 }
